@@ -2,6 +2,7 @@ import styled from "styled-components"
 import GlobalStyles from "./styles/GlobalStyles"
 import Button from "./ui/Button"
 import Input from "./ui/Input"
+import Heading from "./ui/Heading"
 
 const StyledApp = styled.div`
   background-color: orangered;
@@ -13,7 +14,10 @@ function App() {
     <>
       <GlobalStyles />
       <StyledApp>
-        <Button>Check In</Button>
+        <Heading>The Wild Oasis</Heading>
+        <Button size="small" variation="secondary">
+          Check In
+        </Button>
         <Input type="number" placeholder="Number of guests" />
       </StyledApp>
     </>
