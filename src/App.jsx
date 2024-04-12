@@ -1,8 +1,4 @@
-// import styled from "styled-components"
 import GlobalStyles from "./styles/GlobalStyles"
-// import Button from "./ui/Button"
-// import Input from "./ui/Input"
-// import Heading from "./ui/Heading"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Dashboard from "./pages/Dashboard"
 import Cabins from "./pages/Cabins"
@@ -12,11 +8,7 @@ import Account from "./pages/Account"
 import Login from "./pages/Login"
 import PageNotFound from "./pages/PageNotFound"
 import AppLayout from "./ui/AppLayout"
-
-// const StyledApp = styled.div`
-//   background-color: orangered;
-//   padding: 20px;
-// `
+import Bookings from "./pages/Bookings"
 
 function App() {
   return (
@@ -31,13 +23,12 @@ function App() {
             <Route path="users" element={<Users />} />
             <Route path="settings" element={<Settings />} />
             <Route path="account" element={<Account />} />
+            <Route path="bookings" element={<Bookings />} />
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
-      {/* <StyledApp> */}
-      {/* </StyledApp> */}
     </>
   )
 }
