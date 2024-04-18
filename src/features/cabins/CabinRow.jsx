@@ -1,5 +1,4 @@
 import styled from "styled-components"
-// import Row from "../../ui/Row"
 import { formatCurrency } from "../../utils/helpers"
 
 const TableRow = styled.div`
