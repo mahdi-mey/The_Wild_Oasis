@@ -8,6 +8,6 @@ export async function getCabins() {
     if (error) {
         console.log(error)
     }
-
+    console.log(data)
     return data
 }
