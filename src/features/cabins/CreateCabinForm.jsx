@@ -65,7 +65,8 @@ function CreateCabinForm() {
   })
 
   function handleFromSubmit(data) {
-    mutate(data)
+    // console.log(data)
+    mutate({...data, image: data.image[0]})
   }
 
   function handleFormError(errors) {
@@ -74,7 +75,6 @@ function CreateCabinForm() {
 
   return (
     <Form onSubmit={handleSubmit(handleFromSubmit, handleFormError)}>
-
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -140,7 +140,11 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow label="Cabin photo">
-        <FileInput id="image" accept="image/*" />
+        <FileInput
+          id="image"
+          accept="image/*"
+          {...register("image", { required: "This field is required" })}
+        />
       </FormRow>
 
       <StyledFormRow>
