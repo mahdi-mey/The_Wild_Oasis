@@ -6,56 +6,24 @@ import Textarea from "../../ui/Textarea"
 
 import { useForm } from "react-hook-form"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { createCabin } from "../../services/apiCabins"
+import { createEditCabin } from "../../services/apiCabins"
 import toast from "react-hot-toast"
-import styled from "styled-components"
 import FormRow from "../../ui/FormRow"
 
-const StyledFormRow = styled.div`
-  display: grid;
-  align-items: center;
-  grid-template-columns: 24rem 1fr 1.2fr;
-  gap: 2.4rem;
 
-  padding: 1.2rem 0;
-
-  &:first-child {
-    padding-top: 0;
-  }
-
-  &:last-child {
-    padding-bottom: 0;
-  }
-
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-
-  &:has(button) {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.2rem;
-  }
-`
-
-const Label = styled.label`
-  font-weight: 500;
-`
-
-const Error = styled.span`
-  font-size: 1.4rem;
-  color: var(--color-red-700);
-`
-
-function CreateCabinForm() {
-  const { register, handleSubmit, reset, getValues, formState } = useForm()
+function CreateCabinForm({cabinToEdit = {}}) {
+  const {id: editId, ...editValus} = cabinToEdit
+  const isEditSesseion = Boolean(editId)
+  const { register, handleSubmit, reset, getValues, formState } = useForm(
+    {defaultValues: isEditSesseion ? isEditSesseion  : ''}
+  )
   const { errors } = formState
   console.log(errors)
 
   const queryClient = useQueryClient()
 
   const { mutate, isLoading: isCreating } = useMutation({
-    mutationFn: createCabin,
+    mutationFn: createEditCabin,
     onSuccess: () => {
       toast.success("New cabin successfully created")
       queryClient.invalidateQueries({ queryKey: ["cabins"] })
@@ -143,17 +111,17 @@ function CreateCabinForm() {
         <FileInput
           id="image"
           accept="image/*"
-          {...register("image", { required: "This field is required" })}
+          {...register("image", { required: isEditSesseion ? false : "This field is required" })}
         />
       </FormRow>
 
-      <StyledFormRow>
+      <FormRow>
         {/* type is an HTML attribute! */}
         <Button variation="secondary" type="reset">
           Cancel
         </Button>
-        <Button disabled={isCreating}>Edit cabin</Button>
-      </StyledFormRow>
+        <Button disabled={isCreating}>{isEditSesseion ? "Edit Cabin" : 'Create new cabin'}</Button>
+      </FormRow>
     </Form>
   )
 }
