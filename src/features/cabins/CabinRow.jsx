@@ -1,3 +1,6 @@
+import { AiOutlineDelete } from "react-icons/ai"
+import { AiOutlineEdit } from "react-icons/ai"
+import { HiOutlineDocumentDuplicate } from "react-icons/hi"
 import styled from "styled-components"
 import { formatCurrency } from "../../utils/helpers"
 import { useState } from "react"
@@ -43,6 +46,20 @@ const Discount = styled.div`
   color: var(--color-green-700);
 `
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0 1rem;
+`
+
+const IconButton = styled.button`
+  padding: 3px 5px;
+  border: none;
+  background-color: #bebebe60;
+  border-radius: 3px;
+  font-size: larger;
+`
+
 export default function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false)
 
@@ -55,7 +72,7 @@ export default function CabinRow({ cabin }) {
     image,
   } = cabin
 
-  const {isDeleting, deleteCabin} = useDeleteCabin()
+  const { isDeleting, deleteCabin } = useDeleteCabin()
 
   return (
     <>
@@ -64,13 +81,26 @@ export default function CabinRow({ cabin }) {
         <Cabin>{name}</Cabin>
         <div>fits up to {maxCapacity} guests</div>
         <Price>{formatCurrency(regularPrice)}</Price>
-        {discount ? <Discount>{formatCurrency(discount)}</Discount> : <span>&mdash;</span>}
-        <div>
-          <button onClick={() => setShowForm((show) => !show)}>Edit</button>
-          <button onClick={() => deleteCabin(cabinId)} disabled={isDeleting}>
-            Delete
-          </button>
-        </div>
+        {discount ? (
+          <Discount>{formatCurrency(discount)}</Discount>
+        ) : (
+          <span>&mdash;</span>
+        )}
+        <ButtonWrapper>
+          <IconButton title="Duplicate">
+            <HiOutlineDocumentDuplicate />
+          </IconButton>
+          <IconButton title="Edit" onClick={() => setShowForm((show) => !show)}>
+            <AiOutlineEdit />
+          </IconButton>
+          <IconButton
+            title="Delete"
+            onClick={() => deleteCabin(cabinId)}
+            disabled={isDeleting}
+          >
+            <AiOutlineDelete />
+          </IconButton>
+        </ButtonWrapper>
       </TableRow>
       {showForm && <CreateCabinForm cabinToEdit={cabin} />}
     </>
