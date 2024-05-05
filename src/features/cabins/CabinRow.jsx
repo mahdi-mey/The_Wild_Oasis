@@ -6,6 +6,7 @@ import { formatCurrency } from "../../utils/helpers"
 import { useState } from "react"
 import CreateCabinForm from "./CreateCabinForm"
 import useDeleteCabin from "./useDeleteCabin"
+import { useCreateCabin } from "./useCreateCabin"
 
 const TableRow = styled.div`
   display: grid;
@@ -62,7 +63,8 @@ const IconButton = styled.button`
 
 export default function CabinRow({ cabin }) {
   const [showForm, setShowForm] = useState(false)
-
+  const { isCreating, createCabin } = useCreateCabin()
+  
   const {
     id: cabinId,
     name,
@@ -70,7 +72,19 @@ export default function CabinRow({ cabin }) {
     regularPrice,
     discount,
     image,
+    description
   } = cabin
+
+  function handleDuplicate() {
+    createCabin({
+      name: `Copy of ${name} `,
+      maxCapacity,
+      regularPrice,
+      discount,
+      image,
+      description,
+    })
+  }
 
   const { isDeleting, deleteCabin } = useDeleteCabin()
 
@@ -87,12 +101,14 @@ export default function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <ButtonWrapper>
-          <IconButton title="Duplicate">
+          <IconButton title="Duplicate" onClick={handleDuplicate} disabled={isCreating}>
             <HiOutlineDocumentDuplicate />
           </IconButton>
+
           <IconButton title="Edit" onClick={() => setShowForm((show) => !show)}>
             <AiOutlineEdit />
           </IconButton>
+
           <IconButton
             title="Delete"
             onClick={() => deleteCabin(cabinId)}
