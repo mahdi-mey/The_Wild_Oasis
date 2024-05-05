@@ -4,7 +4,6 @@ import toast from "react-hot-toast"
 
 export function useCreateCabin() {
 
-
     const queryClient = useQueryClient()
 
     const { mutate: createCabin, isLoading: isCreating } = useMutation({
@@ -16,5 +15,5 @@ export function useCreateCabin() {
         onError: (err) => toast.error(err.message),
     })
 
-    return {isCreating, createCabin}
+    return { isCreating, createCabin }
 }
