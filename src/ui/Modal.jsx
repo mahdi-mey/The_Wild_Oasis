@@ -57,7 +57,7 @@ export default function Modal({ children }) {
   const [openName, setOpenName] = useState("")
 
   const close = () => setOpenName("")
-  const open = () => setOpenName
+  const open = setOpenName
   return (
     <ModalContext.Provider value={{ openName, close, open }}>
       {children}
