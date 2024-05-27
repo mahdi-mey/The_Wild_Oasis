@@ -3,10 +3,10 @@ import { AiOutlineEdit } from "react-icons/ai"
 import { HiOutlineDocumentDuplicate } from "react-icons/hi"
 import styled from "styled-components"
 import { formatCurrency } from "../../utils/helpers"
-import { useState } from "react"
 import CreateCabinForm from "./CreateCabinForm"
 import useDeleteCabin from "./useDeleteCabin"
 import { useCreateCabin } from "./useCreateCabin"
+import Modal from "../../ui/Modal"
 
 const TableRow = styled.div`
   display: grid;
@@ -62,9 +62,8 @@ const IconButton = styled.button`
 `
 
 export default function CabinRow({ cabin }) {
-  const [showForm, setShowForm] = useState(false)
   const { isCreating, createCabin } = useCreateCabin()
-  
+
   const {
     id: cabinId,
     name,
@@ -72,7 +71,7 @@ export default function CabinRow({ cabin }) {
     regularPrice,
     discount,
     image,
-    description
+    description,
   } = cabin
 
   function handleDuplicate() {
@@ -101,24 +100,35 @@ export default function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <ButtonWrapper>
-          <IconButton title="Duplicate" onClick={handleDuplicate} disabled={isCreating}>
+          <IconButton
+            title="Duplicate"
+            onClick={handleDuplicate}
+            disabled={isCreating}
+          >
             <HiOutlineDocumentDuplicate />
           </IconButton>
+          <Modal>
+            <Modal.Open opens='edit'>
+              <IconButton
+                title="Edit">
+                <AiOutlineEdit />
+              </IconButton>
+            </Modal.Open>
 
-          <IconButton title="Edit" onClick={() => setShowForm((show) => !show)}>
-            <AiOutlineEdit />
-          </IconButton>
+            <Modal.Window name='edit'>
+              <CreateCabinForm cabinToEdit={cabin} />
+            </Modal.Window>
 
-          <IconButton
-            title="Delete"
-            onClick={() => deleteCabin(cabinId)}
-            disabled={isDeleting}
-          >
-            <AiOutlineDelete />
-          </IconButton>
+            <IconButton
+              title="Delete"
+              onClick={() => deleteCabin(cabinId)}
+              disabled={isDeleting}
+            >
+              <AiOutlineDelete />
+            </IconButton>
+          </Modal>
         </ButtonWrapper>
       </TableRow>
-      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
     </>
   )
 }
