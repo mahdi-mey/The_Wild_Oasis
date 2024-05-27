@@ -7,6 +7,7 @@ import CreateCabinForm from "./CreateCabinForm"
 import useDeleteCabin from "./useDeleteCabin"
 import { useCreateCabin } from "./useCreateCabin"
 import Modal from "../../ui/Modal"
+import ConfirmDelete from '../../ui/ConfirmDelete'
 
 const TableRow = styled.div`
   display: grid;
@@ -108,24 +109,26 @@ export default function CabinRow({ cabin }) {
             <HiOutlineDocumentDuplicate />
           </IconButton>
           <Modal>
-            <Modal.Open opens='edit'>
-              <IconButton
-                title="Edit">
+            <Modal.Open opens="edit">
+              <IconButton title="Edit">
                 <AiOutlineEdit />
               </IconButton>
             </Modal.Open>
 
-            <Modal.Window name='edit'>
+            <Modal.Window name="edit">
               <CreateCabinForm cabinToEdit={cabin} />
             </Modal.Window>
 
-            <IconButton
-              title="Delete"
-              onClick={() => deleteCabin(cabinId)}
-              disabled={isDeleting}
-            >
-              <AiOutlineDelete />
-            </IconButton>
+            <Modal.Open opens="delete-cabin">
+              <IconButton
+                title="Delete"
+              >
+                <AiOutlineDelete />
+              </IconButton>
+            </Modal.Open>
+            <Modal.Window name="delete-cabin">
+              <ConfirmDelete resourceName="cabins" disabled={isDeleting} onConfirm={() => deleteCabin(cabinId)} />
+            </Modal.Window>
           </Modal>
         </ButtonWrapper>
       </TableRow>
