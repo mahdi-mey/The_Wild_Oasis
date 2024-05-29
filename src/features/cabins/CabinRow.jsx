@@ -8,6 +8,7 @@ import useDeleteCabin from "./useDeleteCabin"
 import { useCreateCabin } from "./useCreateCabin"
 import Modal from "../../ui/Modal"
 import ConfirmDelete from '../../ui/ConfirmDelete'
+import Table from "../../ui/Table"
 
 const TableRow = styled.div`
   display: grid;
@@ -90,7 +91,7 @@ export default function CabinRow({ cabin }) {
 
   return (
     <>
-      <TableRow role="row">
+      <Table.Row>
         <Img src={image} />
         <Cabin>{name}</Cabin>
         <div>fits up to {maxCapacity} guests</div>
@@ -131,7 +132,7 @@ export default function CabinRow({ cabin }) {
             </Modal.Window>
           </Modal>
         </ButtonWrapper>
-      </TableRow>
+      </Table.Row>
     </>
   )
 }
