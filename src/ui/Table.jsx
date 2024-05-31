@@ -60,42 +60,42 @@ const Empty = styled.p`
   margin: 2.4rem;
 `
 
-const TabelContext = createContext()
+const TableContext = createContext()
 
-export default function Table({ columns, children }) {
+function Table({ columns, children }) {
   return (
-    <TabelContext.Provider>
+    <TableContext.Provider value={{ columns }}>
       <StyledTable role="table">{children}</StyledTable>
-    </TabelContext.Provider>
+    </TableContext.Provider>
   )
 }
 
 function Header({ children }) {
-  const { columns } = useContext(TabelContext)
+  const { columns } = useContext(TableContext)
   return (
-    <StyledHeader role="row" columns={columns}>
+    <StyledHeader role="row" columns={columns} as="header">
       {children}
     </StyledHeader>
   )
 }
 function Row({ children }) {
-   const { columns } = useContext(TabelContext)
-   return (
-     <StyledRow role="row" columns={columns} as='header'>
-       {children}
-     </StyledRow>
-   )
-}
-function Body({ data, render }) {
-  if(!data.length) return <Empty>No data to show at the moment</Empty>
+  const { columns } = useContext(TableContext)
   return (
-    <StyledBody>
-      {data.map(render)}
-    </StyledBody>
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
   )
+}
+
+function Body({ data, render }) {
+  if (!data.length) return <Empty>No data to show at the moment</Empty>
+
+  return <StyledBody>{data.map(render)}</StyledBody>
 }
 
 Table.Header = Header
 Table.Body = Body
 Table.Row = Row
 Table.Footer = Footer
+
+export default Table
